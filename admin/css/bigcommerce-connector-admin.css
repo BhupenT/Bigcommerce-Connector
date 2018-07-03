@@ -2,3 +2,20 @@
  * All of the CSS for your admin-specific functionality should be
  * included in this file.
  */
+
+.bigcom-settings-page form {
+	max-width: 800px;
+}
+
+.connector div {
+	padding: 10px 0;
+}
+
+ .connector .small {
+ 	font-size: 12px;
+    font-style: italic;
+ }
+
+ .connector .medium-field {
+ 	width: 65%;
+ }
