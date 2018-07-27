@@ -88,6 +88,7 @@ class Bigcommerce_Connector {
 		$this->load_dependencies();
 		$this->set_locale();
 		$this->define_admin_hooks();
+		$this->define_wpsync_hooks();
 
 	}
 
@@ -121,11 +122,28 @@ class Bigcommerce_Connector {
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-bigcommerce-connector-i18n.php';
 
+		/**
+		 * Collection of helper functions
+		 */
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/helper-static-functions.php';
 
 		/**
 		 * The class responsible for handling all Api related connections
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-bigcommerce-connection.php';
+
+
+		/**
+		 * The class responsible for handling all wordpress sync related funtionalities
+		 */
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-wordpress-sync.php';
+
+
+		/**
+		 * The class responsible for handling all wordpress sync upon post save/publish/update
+		 */
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-wordpress-sync-upon-save.php';
+
 
 		/**
 		 * The class responsible for defining all actions that occur in the admin area.
@@ -173,6 +191,29 @@ class Bigcommerce_Connector {
 		$this->loader->add_filter('plugin_action_links_' . $plugin_base, $plugin_admin, 'add_setting_link');
 
 		$this->loader->add_action('admin_init', $plugin_admin, 'options_update');
+
+		$this->loader->add_action('wp_ajax_fetch_posts', $plugin_admin, 'ajax_fetch_posts_ids');
+		$this->loader->add_action('wp_ajax_sync_posts', $plugin_admin, 'ajax_bigcom_sync_posts');
+		$this->loader->add_action('wp_ajax_cleanup_postmetas', $plugin_admin, 'ajax_cleanup_postmetas');
+
+	}
+
+	/**
+	 * Register all of the hooks related to the wordpress sync functionality
+	 * of the plugin.
+	 *
+	 * @since    1.0.0
+	 * @access   private
+	 */
+	private function define_wpsync_hooks() {
+
+		$plugin_admin = new Wordpress_Sync_Upon_Save( $this->get_plugin_name(), $this->get_version());
+
+		$this->loader->add_action('save_post', $plugin_admin, 'sync_post_upon_update');
+
+		$this->loader->add_action( 'admin_notices', $plugin_admin, 'add_admin_notices');
+		
+		$this->loader->add_action( 'add_meta_boxes', $plugin_admin, 'register_post_meta_boxes');
 
 	}
 

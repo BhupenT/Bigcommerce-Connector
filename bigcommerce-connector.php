@@ -13,9 +13,9 @@
  * @package           Bigcommerce_Connector
  *
  * @wordpress-plugin
- * Plugin Name:       bigcommerce-connector
+ * Plugin Name:       Bigcommerce Connector
  * Plugin URI:        bigcommerce-connector
- * Description:       This is a short description of what the plugin does. It's displayed in the WordPress admin area.
+ * Description:       Integrates and syncs your Wordpress posts and pages to Bigcommerce Site.
  * Version:           1.0.0
  * Author:            Bhupendra Tamang
  * Author URI:        https://www.matterdesgin.com.au

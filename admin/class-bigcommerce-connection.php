@@ -97,16 +97,61 @@ class Bigcommerce_Connect {
 	}
 
 
-	public function update_posts() {
-		
+	public function create_post($datas = array()) {
 
+		if(!$datas['title'] || empty($datas['title']) && !$datas['body'] || empty($datas['body']))
+			return 'Title and Body is required to create blog';
+
+		// procceed if the required data is there
+
+		$args = $this->setup_api_call('posts', 'POST', $id = '', $datas );
+
+		list($url, $param) = $args;
+
+		return $this->process_api_call($url, $param);
 
 	}
 
 
-	public function update_pages() {
+	/** Supports only type page as of now
+	** will add other type in the future
+	**/
+	public function create_page($datas = array()) {
 
 
+
+		if(!$datas['name'] || empty($datas['name']) && !$datas['type'] || empty($datas['type']))
+			return 'Name and Page Type is required to create page';
+
+		// procceed if the required data is there
+
+		$args = $this->setup_api_call('pages', 'POST', $id = '', $datas );
+
+		list($url, $param) = $args;
+
+		return $this->process_api_call($url, $param);
+
+	}
+
+
+	public function update_post($id, $content_datas) {
+
+
+		$args = $this->setup_api_call('posts', 'PUT', $id, $content_datas);
+
+		list($url, $param) = $args;
+
+		return $this->process_api_call($url, $param);
+
+	}
+
+
+	public function update_page($id, $content_datas) {
+
+		$args = $this->setup_api_call('pages', 'PUT', $id, $content_datas);
+		list($url, $param) = $args;
+
+		return $this->process_api_call($url, $param);
 		
 	}
 
@@ -115,12 +160,26 @@ class Bigcommerce_Connect {
 
 		$response = wp_remote_request( $url, $param );
 
-		if(200 != wp_remote_retrieve_response_code( $response )) {
-			return false;
-		}
+		$response_code =  wp_remote_retrieve_response_code( $response );
 
-		// If all ok
-		return json_decode( wp_remote_retrieve_body( $response ) );
+		switch ($response_code) {
+			case '404':
+				return $response_code;
+				break;
+
+			case '200':
+				return json_decode( wp_remote_retrieve_body( $response ) );
+				break;
+
+			case '201':
+				return json_decode( wp_remote_retrieve_body( $response ) );
+				break;
+			
+			default:
+				return false;
+				break;
+		}
+		
 
 	}
 
@@ -157,6 +216,7 @@ class Bigcommerce_Connect {
 		$headers = array(
 			'X-Auth-Client'	=> $this->get_sensitive_data($this->options['client_id']),
 			'X-Auth-Token'	=> $this->get_sensitive_data($this->options['client_token']),
+			'Content-Type'	=> 'application/json',
 			'Accept'		=> 'application/json'
 		);
 
@@ -165,9 +225,9 @@ class Bigcommerce_Connect {
 	}
 
 
-	protected function setup_api_call($type, $method, $param = '', $id = '') {
-
-		$id = (!$id || !is_int($id)) ? null : $id;
+	protected function setup_api_call($type, $method, $id = '', $param = '') {
+		
+		$id = (!$id || empty($id)) ? null : $id;
 
 		$array = $this->add_headers($type, $id);
 
@@ -177,7 +237,7 @@ class Bigcommerce_Connect {
 			'method'	=> $method,
 			'timeout'	=> 15,
 			'headers'	=> $headers,
-			'body'		=> $param
+			'body'		=> json_encode($param),
 		);
 
 		return array($url, $args);

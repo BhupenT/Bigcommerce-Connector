@@ -19,3 +19,88 @@
  .connector .medium-field {
  	width: 65%;
  }
+
+.connector .ui-widget.ui-widget-content {
+	padding: 0;
+}
+
+.connector .ui-widget.ui-widget-content {
+    border: 1px solid #899097;
+    background: #323f4d8c;
+}
+
+.connector .ui-progressbar .ui-progressbar-value {
+    -webkit-transition: background 1s ease-in-out;
+    -moz-transition: background 1s ease-in-out;
+    -ms-transition: background 1s ease-in-out;
+    -o-transition: background 1s ease-in-out;
+    transition: background 1s ease-in-out;
+}
+
+.connector .progress-label {
+	font-weight: bold;
+    color: #d54d21;
+    line-height: 2;
+    vertical-align: -webkit-baseline-middle;
+}
+
+.connector .ui-progressbar .ui-progressbar-overlay {
+	margin-top: -10px;
+}
+
+.connector #progressbar {
+	position: relative;
+}
+
+.connector .progress-status {
+    position: absolute;
+    left: 50%;
+    top: -4px;
+    text-shadow: 1px 1px 0 #000000;
+    color: #fff;
+    transform: translateX(-50%);
+    -webkit-font-smoothing: antialiased;
+    font-size: 18px;
+}
+
+.connector #sync-log {
+	background: #3c3c3c;
+    padding: 20px;
+    margin: 10px auto;
+    color: #2dbf6d;
+    -webkit-font-smoothing: antialiased;
+}
+
+#sync-log p.error {
+	color: #eee;
+}
+
+.connector p.submit {
+    margin: 0;
+}
+
+.connector .ui-progressbar .ui-progressbar-value.error-fixed {
+    background: #368456;
+}
+
+.connector #Fixerrors {
+    display: inline-block;
+}
+
+.connector #fix-now.button.delete {
+    background: #009847;
+    color: #fff;
+    border-color: #15653a;
+    box-shadow: 0 1px 0 #007135;
+    -webkit-font-smoothing: antialiased;
+    font-weight: bold;
+    padding: 0px 60px;
+    height: 40px;
+    font-size: 15px;
+}
+
+ /* Post/Pages Styles */
+
+ #Bigcom-permalink #Bigcomlink {
+ 	width: 100%;
+ }

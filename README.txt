@@ -1,14 +1,14 @@
 === Plugin Name ===
 Contributors: (this should be a list of wordpress.org userid's)
 Donate link: https://www.matterdesgin.com.au
-Tags: comments, spam
+Tags: Bigcommerce, Sync, Bulk Sync, Wordpress Bigcommerce Integration
 Requires at least: 3.0.1
 Tested up to: 3.4
 Stable tag: 4.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Here is a short description of the plugin.  This should be no more than 150 characters.  No markup here.
+Integrates your Wordpress posts and pages to Bigcommerce Site.
 
 == Description ==
 
@@ -49,9 +49,23 @@ e.g.
 
 == Frequently Asked Questions ==
 
-= A question that someone might have =
+= Any hooks or Filter so it can support a custom Post Type?
 
-An answer to that question.
+Yes, Its very easy, there is two filters that allows you to add your custom post type to auto and bulk sync to Bigcommerce
+
+	
+	add_filter('bigcommerce_sync_custom_post_type', 'my_callback');
+	function my_callback($sync) {
+		$sync['testimonials'] = 'page';
+		return $sync;
+	}
+
+
+	add_filter('bigcommerce_bulksync_custom_post_type', 'my_callback1');
+	function my_callback1($sync) {
+		$sync['testimonials'] = 'page';
+		return $sync;
+	}
 
 = What about foo bar? =
 

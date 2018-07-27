@@ -78,7 +78,7 @@
 	        <legend class="screen-reader-text">
 	            <span>Auto Sync Wordpress Pages</span>
 	        </legend>
-	        <label for="<?php echo $this->plugin_name; ?>-showprice">
+	        <label for="<?php echo $this->plugin_name; ?>-sync-pages">
 	            <input type="checkbox" id="<?php echo $this->plugin_name; ?>-sync-pages" name="<?php echo $this->plugin_name; ?>[sync_pages]" value="1" <?php checked($options['sync_pages'], 1); ?> />
 	            <span><?php esc_attr_e('Sync Wordpress Pages', $this->plugin_name); ?></span>
 	        </label>
@@ -100,14 +100,22 @@
 
 
 	<div>
-		<h3><?php esc_attr_e( 'Manual Sync all posts including Pages', 'wp_admin_style' ); ?></h3>
-
-		<a href="#" id="Sync-All" class="button-primary">Sync Now</a>
-
+		<h3><?php esc_attr_e( 'Bulk Sync all posts including Pages', 'wp_admin_style' ); ?></h3>
+		
+		 <?php submit_button('Sync Now', 'primary','sync-now', false); ?>
+		 <span class="progress-label" style="display: none;">Synching... <span id="progress-data">please wait...</span></span>
 	</div>
 
+	<div id="sync-log" style="display: none;"></div>
+	<div id="Fixerrors" style="display: none;"><?php submit_button('Fix Now', 'delete','fix-now', false); ?></div>
 
-    <?php submit_button('Save all changes', 'primary','submit', TRUE); ?>
+	<div class="progress-container" style="display: none;">
+		<div id="progressbar"><div class="progress-status">Synching...</div></div>
+	</div>
+	
+
+    <?php submit_button('Save all changes', 'primary','submit', TRUE); 
+    wp_nonce_field( $this->plugin_name . '_save_settings', 'save_settings' );?>
 
     </form>
 
