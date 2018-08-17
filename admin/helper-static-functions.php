@@ -12,11 +12,9 @@
  */
 
 
-function get_corrected_permalink($permalink, $default = false) {
+function get_corrected_permalink($permalink) {
 	if(!$permalink || empty($permalink)) 
 		return '';
-
-	$permalink = ($default === true) ? preg_replace('/[^\da-z ]/i', '', $permalink) : $permalink;
 	//add dash if there is space to make a valid url
 	$permalink = preg_replace('/\s+/', '-', $permalink);
 	// Check if there is slash infront if not add

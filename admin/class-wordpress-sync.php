@@ -100,7 +100,7 @@ class Wordpress_Sync {
 			$permalink = array();
 			foreach ($args as $arg) {
 				if($arg == 'postname') {
-					$postname = get_the_title($post_id);
+					$postname = preg_replace('/[^\da-z ]/i', '', get_the_title($post_id));
 					$permalink[] = $postname;
 
 				}else{
